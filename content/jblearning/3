@@ -1,0 +1,33 @@
+(() => {
+  const { automation, jblearningQuestions, jblearningAnswers } = AutoMcGraw;
+
+  const runner = automation.create({
+    async step(run) {
+      const data = await run.waitFor(() => jblearningQuestions.readQuestion());
+      const answer = await run.ask({
+        question: data.question,
+        options: data.options,
+      });
+
+      const applied = jblearningAnswers.applyAnswer(answer, data.optionEls);
+      if (!applied) {
+        await run.pauseForManualAnswer(
+          "Could not match the answer automatically",
+          [answer],
+          "Select the answer manually and move to the next question.",
+          () => jblearningQuestions.readQuestion()?.question !== data.question
+        );
+      } else {
+        await run.delay(800);
+        jblearningAnswers.clickNext();
+        await run.delay(1500);
+      }
+    },
+    onStateChange() {
+      // Update toolbar button state here if using content/mhe/toolbar.js
+    },
+  });
+
+  // Expose start/stop for testing in DevTools or wiring to the toolbar
+  window.autoJBL = runner;
+})();
