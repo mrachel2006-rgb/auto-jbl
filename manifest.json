@@ -1,3 +1,11 @@
+There were two issues at the bottom of your `manifest.json`:
+
+1. **Missing closing brackets:** The file ended right after the `navigate2.jblearning.com` block without closing the `"content_scripts"` list (`]`) or the main JSON object (`}`).
+2. **Placeholder file path:** `"shared/..."` was left in the `"js"` array, which would cause Chrome to throw a "Could not load javascript" error. It needs the actual `shared/` files listed in the other blocks.
+
+Replace the entire contents of your `manifest.json` with this corrected version:
+
+```json
 {
   "manifest_version": 3,
   "name": "Auto-McGraw Smartbook",
@@ -98,15 +106,22 @@
       ]
     },
     {
-  "matches": ["https://navigate2.jblearning.com/*"],
-  "all_frames": true,
-  "js": [
-    "shared/...",
-    "content/mhe/text.js",
-    "content/mhe/toolbar.js",
-    "content/mhe/automation.js",
-    "content/jblearning/questions.js",
-    "content/jblearning/answers.js",
-    "content/jblearning/main.js"
+      "matches": ["https://navigate2.jblearning.com/*"],
+      "all_frames": true,
+      "js": [
+        "shared/namespace.js",
+        "shared/assistants.js",
+        "shared/settings.js",
+        "shared/messaging.js",
+        "shared/wait.js",
+        "shared/dom.js",
+        "content/mhe/text.js",
+        "content/mhe/automation.js",
+        "content/mhe/toolbar.js",
+        "content/jblearning/questions.js",
+        "content/jblearning/answers.js",
+        "content/jblearning/main.js"
+      ]
+    }
   ]
 }
