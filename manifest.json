@@ -10,7 +10,8 @@
     "https://chatgpt.com/*",
     "https://gemini.google.com/*",
     "https://chat.deepseek.com/*",
-    "https://api.github.com/*"
+    "https://api.github.com/*",
+    "https://navigate2.jblearning.com/*"
   ],
   "background": {
     "service_worker": "background/service-worker.js"
@@ -95,6 +96,17 @@
         "content/assistant/bridge.js",
         "content/assistant/deepseek.js"
       ]
-    }
+    },
+    {
+  "matches": ["https://navigate2.jblearning.com/*"],
+  "all_frames": true,
+  "js": [
+    "shared/...",
+    "content/mhe/text.js",
+    "content/mhe/toolbar.js",
+    "content/mhe/automation.js",
+    "content/jblearning/questions.js",
+    "content/jblearning/answers.js",
+    "content/jblearning/main.js"
   ]
 }
